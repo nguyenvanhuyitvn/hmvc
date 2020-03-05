@@ -11,6 +11,5 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+
+Route::get('/', '\Customers\Http\Controllers\BackEnd\Customers@index');
