@@ -3,13 +3,32 @@ namespace App\Modules;
 use File;
 use Illuminate\Support\ServiceProvider;
 class ModuleServiceProvider extends ServiceProvider{
+
+    // Load config theo chuẩn Laravel
+    /**
+     * Register config file here 
+     * alias => path
+     */
+    private $configFile = [
+        'customerConfig' => 'Customers/Configs/customerConfig.php',
+    ];
+    /**
+    * Register bindings in the container.
+    */
+    public function register(){
+        // register your config file here
+        foreach($this->configFile as $alias => $path){
+            $this->mergeConfigFrom(__DIR__."/".$path, $alias);
+        }
+    }
+
     public function boot(){
+        $ds = DIRECTORY_SEPARATOR;
         $directories =array_map('basename', File::directories(__DIR__));
         foreach($directories as $moduleName){
+            // $this->loadConfig($moduleName); // Gọi hàm loadConfig tự tạo vào, trước khi gọi các route, migrations,..
             $this->_registerModule($moduleName);
-            $this->loadConfig($moduleName);
         }
-        dd(config());
     }
     public function _registerModule($moduleName){
         $modulePath = __DIR__."/".$moduleName."/";
@@ -31,11 +50,12 @@ class ModuleServiceProvider extends ServiceProvider{
         }
 
     }
+    // Tự tạo hàm loadConfig
     public function loadConfig($moduleName){
         $modulePath = __DIR__."/".$moduleName."/";
-        if(File::exists($modulePath."config")){
+        if(File::exists($modulePath."Configs")){
             config([
-                'route'=> File::getRequire($modulePath."config/route.php")
+                'customerConfig'=> File::getRequire($modulePath."Configs/customerConfig.php")
             ]);
         }
     }

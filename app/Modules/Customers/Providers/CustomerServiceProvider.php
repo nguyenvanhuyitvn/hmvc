@@ -26,5 +26,6 @@ class CustomerServiceProvider extends ServiceProvider
         $ds = DIRECTORY_SEPARATOR;
         // dd(__DIR__.$ds.'..'.$ds.'routes'.$ds.'web.php');
         $this->loadRoutesFrom(__DIR__.$ds.'..'.$ds.'routes'.$ds.'web.php');
+       
     }
 }

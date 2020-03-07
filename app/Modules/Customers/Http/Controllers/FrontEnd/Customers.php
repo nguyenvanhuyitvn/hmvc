@@ -3,7 +3,7 @@
     use App\Http\Controllers\Controller;
     class Customers extends Controller{
         public function index(){
-            dd('customer fronted');
+            return view('Customers::frontend.index');
         }
     }
 ?>
